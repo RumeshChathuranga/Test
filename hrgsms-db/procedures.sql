@@ -621,6 +621,88 @@ BEGIN
     ORDER BY rt.typeName, r.roomNo;
 END$$
 
+-- ================================
+-- Check-in and Check-out Procedures
+-- ================================
+
+DROP PROCEDURE IF EXISTS sp_checkin$$
+
+CREATE PROCEDURE sp_checkin(
+    IN p_bookingID INT UNSIGNED
+)
+BEGIN
+    DECLARE v_count INT DEFAULT 0;
+    DECLARE v_currentStatus VARCHAR(20);
+    DECLARE v_roomID INT UNSIGNED;
+    
+    -- Check if booking exists and get current status
+    SELECT COUNT(*), bookingStatus, roomID 
+    INTO v_count, v_currentStatus, v_roomID
+    FROM booking 
+    WHERE bookingID = p_bookingID;
+    
+    IF v_count = 0 THEN
+        SELECT 0 as success, 'Booking not found' as message;
+    ELSEIF v_currentStatus = 'CheckedIn' THEN
+        SELECT 0 as success, 'Guest already checked in' as message;
+    ELSEIF v_currentStatus = 'CheckedOut' THEN
+        SELECT 0 as success, 'Booking already completed' as message;
+    ELSEIF v_currentStatus = 'Cancelled' THEN
+        SELECT 0 as success, 'Cannot check in cancelled booking' as message;
+    ELSE
+        -- Update booking status to CheckedIn
+        UPDATE booking 
+        SET bookingStatus = 'CheckedIn'
+        WHERE bookingID = p_bookingID;
+        
+        -- Update room status to Occupied
+        UPDATE room 
+        SET roomStatus = 'Occupied' 
+        WHERE roomID = v_roomID;
+        
+        SELECT 1 as success, 'Check-in successful' as message, p_bookingID as bookingID;
+    END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS sp_checkout$$
+
+CREATE PROCEDURE sp_checkout(
+    IN p_bookingID INT UNSIGNED
+)
+BEGIN
+    DECLARE v_count INT DEFAULT 0;
+    DECLARE v_currentStatus VARCHAR(20);
+    DECLARE v_roomID INT UNSIGNED;
+    
+    -- Check if booking exists and get current status
+    SELECT COUNT(*), bookingStatus, roomID 
+    INTO v_count, v_currentStatus, v_roomID
+    FROM booking 
+    WHERE bookingID = p_bookingID;
+    
+    IF v_count = 0 THEN
+        SELECT 0 as success, 'Booking not found' as message;
+    ELSEIF v_currentStatus = 'CheckedOut' THEN
+        SELECT 0 as success, 'Guest already checked out' as message;
+    ELSEIF v_currentStatus = 'Cancelled' THEN
+        SELECT 0 as success, 'Cannot check out cancelled booking' as message;
+    ELSEIF v_currentStatus != 'CheckedIn' THEN
+        SELECT 0 as success, 'Guest must be checked in first' as message;
+    ELSE
+        -- Update booking status to CheckedOut
+        UPDATE booking 
+        SET bookingStatus = 'CheckedOut'
+        WHERE bookingID = p_bookingID;
+        
+        -- Update room status back to Available
+        UPDATE room 
+        SET roomStatus = 'Available' 
+        WHERE roomID = v_roomID;
+        
+        SELECT 1 as success, 'Check-out successful' as message, p_bookingID as bookingID;
+    END IF;
+END$$
+
 DELIMITER ;
 
 -- ==========================================
