@@ -703,6 +703,67 @@ BEGIN
     END IF;
 END$$
 
+-- ================================
+-- Booking Creation Procedure
+-- ================================
+
+DROP PROCEDURE IF EXISTS sp_create_booking$$
+
+CREATE PROCEDURE sp_create_booking(
+    IN p_guestID BIGINT UNSIGNED,
+    IN p_branchID BIGINT UNSIGNED,
+    IN p_roomID BIGINT UNSIGNED,
+    IN p_checkInDate DATETIME,
+    IN p_checkOutDate DATETIME,
+    IN p_numGuests INT UNSIGNED
+)
+BEGIN
+    DECLARE v_rate DECIMAL(10,2);
+    DECLARE v_bookingID BIGINT UNSIGNED;
+    DECLARE v_room_count INT DEFAULT 0;
+    
+    -- Check if room exists
+    SELECT COUNT(*) INTO v_room_count FROM room WHERE roomID = p_roomID;
+    
+    IF v_room_count = 0 THEN
+        SELECT 0 as success, CONCAT('Room with ID ', p_roomID, ' not found') as message;
+    ELSE
+        -- Get the room rate from room_type table
+        SELECT rt.currRate 
+        INTO v_rate
+        FROM room r
+        INNER JOIN room_type rt ON r.typeID = rt.typeID
+        WHERE r.roomID = p_roomID;
+        
+        -- Create the booking
+        INSERT INTO booking (
+        guestID, 
+        branchID, 
+        roomID, 
+        rate, 
+        checkInDate, 
+        checkOutDate, 
+        numGuests, 
+        bookingStatus
+    ) VALUES (
+        p_guestID,
+        p_branchID,
+        p_roomID,
+        v_rate,
+        p_checkInDate,
+        p_checkOutDate,
+        p_numGuests,
+        'Booked'
+    );
+    
+        -- Get the created booking ID
+        SET v_bookingID = LAST_INSERT_ID();
+        
+        -- Return the booking ID
+        SELECT v_bookingID as bookingID;
+    END IF;
+END$$
+
 DELIMITER ;
 
 -- ==========================================
