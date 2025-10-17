@@ -74,7 +74,7 @@ END$$
 
 CREATE PROCEDURE sp_create_invoice(
   IN p_bookingID BIGINT UNSIGNED,
-  IN p_discountCode VARCHAR(20)
+  IN p_discountCode INT UNSIGNED
 )
 BEGIN
     DECLARE v_rate DECIMAL(15,2);
@@ -103,7 +103,7 @@ BEGIN
     SET v_subtotal = v_rate * v_nights;
     
     -- Apply discount if code provided (simple 10% discount for demo)
-    IF p_discountCode IS NOT NULL AND p_discountCode != '' THEN
+    IF p_discountCode IS NOT NULL THEN
         SET v_discount = 10.00;
     END IF;
     
@@ -113,9 +113,22 @@ BEGIN
     -- Calculate total with discount
     SET v_total = v_subtotal + v_tax - (v_subtotal * v_discount / 100);
     
-    -- Create invoice
-    INSERT INTO invoice (bookingID, issueDate, dueDate, subtotalAmount, taxAmount, totalAmount, discountPercentage, invoiceStatus)
-    VALUES (p_bookingID, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY), v_subtotal, v_tax, v_total, v_discount, 'Pending');
+    -- Create invoice (using actual table structure)
+    INSERT INTO invoice (
+        bookingID, 
+        roomCharges, 
+        serviceCharges, 
+        discountAmount, 
+        taxAmount, 
+        invoiceStatus
+    ) VALUES (
+        p_bookingID, 
+        v_subtotal, 
+        0.00, 
+        (v_subtotal * v_discount / 100), 
+        v_tax, 
+        'Pending'
+    );
     
     SET v_invoiceID = LAST_INSERT_ID();
     
@@ -123,10 +136,9 @@ BEGIN
     SELECT 
         v_invoiceID as invoiceID,
         p_bookingID as bookingID,
-        v_subtotal as subtotalAmount,
+        v_subtotal as roomCharges,
         v_tax as taxAmount,
-        v_total as totalAmount,
-        v_discount as discountPercentage,
+        (v_subtotal * v_discount / 100) as discountAmount,
         'Invoice created successfully' as message;
     
     COMMIT;
