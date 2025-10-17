@@ -22,20 +22,25 @@ export default function NewReservation() {
   async function create() {
     setMessage(null);
     setError(null);
-    
+
     // Validation
-    if (!form.guestID || !form.roomID || !form.checkInDate || !form.checkOutDate) {
+    if (
+      !form.guestID ||
+      !form.roomID ||
+      !form.checkInDate ||
+      !form.checkOutDate
+    ) {
       setError("Please fill in all required fields");
       return;
     }
-    
+
     if (new Date(form.checkInDate) >= new Date(form.checkOutDate)) {
       setError("Check-out date must be after check-in date");
       return;
     }
-    
+
     setLoading(true);
-    
+
     try {
       const payload = {
         guestID: Number(form.guestID),
@@ -46,8 +51,10 @@ export default function NewReservation() {
         numGuests: Number(form.numGuests),
       };
       const res = await apiClient.post("/reservations/", payload);
-      setMessage(`Reservation created successfully! Booking ID: ${res.data.booking_id}`);
-      
+      setMessage(
+        `Reservation created successfully! Booking ID: ${res.data.booking_id}`
+      );
+
       // Reset form
       setForm({
         guestID: "",
@@ -67,11 +74,11 @@ export default function NewReservation() {
   async function checkin() {
     const bookingId = prompt("Enter booking ID to check-in");
     if (!bookingId || !bookingId.trim()) return;
-    
+
     setMessage(null);
     setError(null);
     setLoading(true);
-    
+
     try {
       const res = await apiClient.post(`/reservations/${bookingId}/checkin`);
       setMessage(res.data?.message ?? "Guest checked in successfully");
@@ -85,11 +92,11 @@ export default function NewReservation() {
   async function checkout() {
     const bookingId = prompt("Enter booking ID to check-out");
     if (!bookingId || !bookingId.trim()) return;
-    
+
     setMessage(null);
     setError(null);
     setLoading(true);
-    
+
     try {
       const res = await apiClient.post(`/reservations/${bookingId}/checkout`);
       setMessage(res.data?.message ?? "Guest checked out successfully");
@@ -104,7 +111,7 @@ export default function NewReservation() {
     <Layout>
       <div className="container-app max-w-xl py-8 space-y-4">
         <h1 className="text-xl font-semibold">New Reservation</h1>
-        
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Guest ID</label>
@@ -116,7 +123,7 @@ export default function NewReservation() {
               className="mt-1 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium">Branch</label>
             <select
@@ -129,7 +136,7 @@ export default function NewReservation() {
               <option value="3">Colombo</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium">Room ID</label>
             <input
@@ -140,7 +147,7 @@ export default function NewReservation() {
               className="mt-1 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium">Check-in Date</label>
             <input
@@ -150,7 +157,7 @@ export default function NewReservation() {
               className="mt-1 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium">Check-out Date</label>
             <input
@@ -160,9 +167,11 @@ export default function NewReservation() {
               className="mt-1 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
             />
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium">Number of Guests</label>
+            <label className="block text-sm font-medium">
+              Number of Guests
+            </label>
             <input
               type="number"
               min="1"
@@ -178,13 +187,13 @@ export default function NewReservation() {
             {error}
           </div>
         )}
-        
+
         {message && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
             {message}
           </div>
         )}
-        
+
         <div className="flex gap-2">
           <button
             onClick={create}
