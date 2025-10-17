@@ -103,7 +103,7 @@ export default function NewReservation() {
       return;
     }
 
-    if (checkInDate.isBefore(now.subtract(1, 'hour'))) {
+    if (checkInDate.isBefore(now.subtract(1, "hour"))) {
       setError("Check-in date cannot be in the past");
       return;
     }
@@ -113,7 +113,7 @@ export default function NewReservation() {
       return;
     }
 
-    if (checkOutDate.diff(checkInDate, 'minutes') < 60) {
+    if (checkOutDate.diff(checkInDate, "minutes") < 60) {
       setError("Minimum stay is 1 hour");
       return;
     }
@@ -125,14 +125,14 @@ export default function NewReservation() {
         guestID: Number(form.guestID),
         branchID: Number(form.branchID),
         roomID: Number(form.roomID),
-        checkInDate: dayjs(form.checkInDate).format('YYYY-MM-DD'),
-        checkOutDate: dayjs(form.checkOutDate).format('YYYY-MM-DD'),
+        checkInDate: dayjs(form.checkInDate).format("YYYY-MM-DD"),
+        checkOutDate: dayjs(form.checkOutDate).format("YYYY-MM-DD"),
         numGuests: Number(form.numGuests),
       };
-      
-      console.log('Sending payload:', payload); // Debug log
-      console.log('Form state:', form); // Debug log
-      
+
+      console.log("Sending payload:", payload); // Debug log
+      console.log("Form state:", form); // Debug log
+
       const res = await apiClient.post("/reservations/", payload);
       setMessage(
         `Reservation created successfully! Booking ID: ${res.data.booking_id}`
@@ -148,26 +148,28 @@ export default function NewReservation() {
         numGuests: "1",
       });
     } catch (err: any) {
-      console.error('Error creating reservation:', err);
-      console.error('Error response:', err.response?.data);
-      
+      console.error("Error creating reservation:", err);
+      console.error("Error response:", err.response?.data);
+
       // Handle different error response formats
       let errorMessage = "Failed to create reservation";
-      
+
       if (err.response?.data) {
         const errorData = err.response.data;
-        
-        if (typeof errorData === 'string') {
+
+        if (typeof errorData === "string") {
           errorMessage = errorData;
         } else if (errorData.detail) {
           if (Array.isArray(errorData.detail)) {
             // Handle validation errors array
-            errorMessage = errorData.detail.map((e: any) => {
-              if (typeof e === 'string') return e;
-              if (e.msg) return `${e.loc?.[1] || 'Field'}: ${e.msg}`;
-              return JSON.stringify(e);
-            }).join('; ');
-          } else if (typeof errorData.detail === 'string') {
+            errorMessage = errorData.detail
+              .map((e: any) => {
+                if (typeof e === "string") return e;
+                if (e.msg) return `${e.loc?.[1] || "Field"}: ${e.msg}`;
+                return JSON.stringify(e);
+              })
+              .join("; ");
+          } else if (typeof errorData.detail === "string") {
             errorMessage = errorData.detail;
           } else {
             errorMessage = JSON.stringify(errorData.detail);
@@ -180,44 +182,8 @@ export default function NewReservation() {
       } else if (err.message) {
         errorMessage = err.message;
       }
-      
+
       setError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function checkin() {
-    const bookingId = prompt("Enter booking ID to check-in");
-    if (!bookingId || !bookingId.trim()) return;
-
-    setMessage(null);
-    setError(null);
-    setLoading(true);
-
-    try {
-      const res = await apiClient.post(`/reservations/${bookingId}/checkin`);
-      setMessage(res.data?.message ?? "Guest checked in successfully");
-    } catch (err: any) {
-      setError(err.response?.data?.detail || "Failed to check-in guest");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function checkout() {
-    const bookingId = prompt("Enter booking ID to check-out");
-    if (!bookingId || !bookingId.trim()) return;
-
-    setMessage(null);
-    setError(null);
-    setLoading(true);
-
-    try {
-      const res = await apiClient.post(`/reservations/${bookingId}/checkout`);
-      setMessage(res.data?.message ?? "Guest checked out successfully");
-    } catch (err: any) {
-      setError(err.response?.data?.detail || "Failed to check-out guest");
     } finally {
       setLoading(false);
     }
@@ -293,7 +259,7 @@ export default function NewReservation() {
                   Error
                 </h3>
                 <div className="mt-2 text-sm text-red-700 dark:text-red-300">
-                  {typeof error === 'string' ? error : JSON.stringify(error)}
+                  {typeof error === "string" ? error : JSON.stringify(error)}
                 </div>
               </div>
             </div>
@@ -521,27 +487,20 @@ export default function NewReservation() {
               </button>
             </div>
 
-            {/* Quick Actions */}
+            {/* Navigation to Reservations Management */}
             <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
               <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
-                🔄 Quick Actions
+                🔄 Manage Reservations
               </h3>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={checkin}
-                  disabled={loading}
-                  className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg py-3 px-4 font-medium transition-all duration-200 shadow-md hover:shadow-lg"
-                >
-                  ✅ Check-in Guest
-                </button>
-                <button
-                  onClick={checkout}
-                  disabled={loading}
-                  className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg py-3 px-4 font-medium transition-all duration-200 shadow-md hover:shadow-lg"
-                >
-                  ❌ Check-out Guest
-                </button>
-              </div>
+              <p className="text-slate-600 dark:text-slate-400 mb-4">
+                Need to check-in or check-out guests? View and manage all reservations from the reservations management page.
+              </p>
+              <a
+                href="/reservations"
+                className="inline-flex items-center bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-lg py-3 px-6 font-medium transition-all duration-200 shadow-md hover:shadow-lg"
+              >
+                📋 View All Reservations
+              </a>
             </div>
           </div>
         </div>

@@ -40,6 +40,12 @@ export default function Layout({ children }: PropsWithChildren) {
           </Link>
           <Link
             className="block px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
+            to="/reservations"
+          >
+            View Reservations
+          </Link>
+          <Link
+            className="block px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
             to="/reservations/new"
           >
             New Reservation

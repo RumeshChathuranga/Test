@@ -70,3 +70,30 @@ def get_all_guests() -> List[Dict]:
     except Exception as e:
         print(f"Error getting all guests: {e}")
         return []
+
+def get_all_reservations() -> List[Dict]:
+    """Get all reservations with guest and room details."""
+    try:
+        result = call_proc("sp_get_all_reservations", ())
+        return result if result else []
+    except Exception as e:
+        print(f"Error getting all reservations: {e}")
+        return []
+
+def get_reservations_by_status(status: str) -> List[Dict]:
+    """Get reservations filtered by status."""
+    try:
+        result = call_proc("sp_get_reservations_by_status", (status,))
+        return result if result else []
+    except Exception as e:
+        print(f"Error getting reservations by status: {e}")
+        return []
+
+def get_todays_reservations() -> List[Dict]:
+    """Get today's check-ins and check-outs."""
+    try:
+        result = call_proc("sp_get_todays_reservations", ())
+        return result if result else []
+    except Exception as e:
+        print(f"Error getting today's reservations: {e}")
+        return []
