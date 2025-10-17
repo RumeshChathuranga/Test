@@ -454,4 +454,4 @@ The payment has been recorded and the invoice balance will be updated automatica
 }
 
 // Re-export the InvoiceList component
-export { InvoiceList } from './InvoiceList';
+export { InvoiceList } from "./InvoiceList";
