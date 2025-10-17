@@ -25,7 +25,7 @@ def add_payment_endpoint(
 ):
     """Add a payment to an invoice."""
     try:
-        transaction_id = add_payment(payload.invoice_id, payload.amount, payload.payment_method)
+        transaction_id = add_payment(payload.invoiceID, payload.amount, payload.paymentMethod)
         return {"transaction_id": transaction_id, "message": "Payment added successfully"}
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))

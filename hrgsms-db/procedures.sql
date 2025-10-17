@@ -64,10 +64,10 @@ BEGIN
     
     START TRANSACTION;
     
-    INSERT INTO payment (invoiceID, amount, paymentMethod, transactionDate, paymentStatus)
-    VALUES (p_invoiceID, p_amount, p_paymentMethod, NOW(), 'Completed');
+    INSERT INTO payment (invoiceID, amount, paymentMethod, transactionDate)
+    VALUES (p_invoiceID, p_amount, p_paymentMethod, NOW());
     
-    SELECT LAST_INSERT_ID() as paymentID, 'Payment added successfully' as message;
+    SELECT LAST_INSERT_ID() as transactionID, 'Payment added successfully' as message;
     
     COMMIT;
 END$$
