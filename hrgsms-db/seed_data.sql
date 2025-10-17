@@ -2,7 +2,7 @@
 INSERT INTO `branch` (branchID, location,rating,phone,email) VALUES
   (1, 'Kandy', 4.7, '+94773853091' ,'skyKandy@gamil.com'),
   (2, 'Galle', '4.5', '+94775005806', 'skyGalle@gmail.com'),
-  (3, 'Nuwara Eliya', '3.6', '+94773274105', 'skyEliya@gmmail.com');
+  (3, 'Colombo', '4.2', '+94773274105', 'skyColombo@gmail.com');
 
 -- Room Types
 INSERT INTO `room_type` (typeID, typeName, capacity, currRate) VALUES

@@ -52,3 +52,21 @@ def get_guest(guest_id: int) -> Optional[Dict]:
     except Exception as e:
         print(f"Error getting guest: {e}")
         return None
+
+def search_guests(search_term: str = "") -> List[Dict]:
+    """Search guests by name, phone, email, or ID number."""
+    try:
+        result = call_proc("sp_search_guests", (search_term,))
+        return result if result else []
+    except Exception as e:
+        print(f"Error searching guests: {e}")
+        return []
+
+def get_all_guests() -> List[Dict]:
+    """Get all guests (limited to 50 for performance)."""
+    try:
+        result = call_proc("sp_get_all_guests", ())
+        return result if result else []
+    except Exception as e:
+        print(f"Error getting all guests: {e}")
+        return []

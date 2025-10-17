@@ -1,9 +1,25 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
+from typing import Optional
 from ...api.dependancies import require_roles
 from ...models.schemas import GuestCreate, GuestOut
-from ...services.booking_service import create_guest, get_guest
+from ...services.booking_service import create_guest, get_guest, search_guests, get_all_guests
 
 router = APIRouter(prefix="/guests", tags=["guests"])
+
+@router.get("/search")
+def search_guests_endpoint(
+    q: Optional[str] = Query(None, description="Search term for guest name, phone, email, or ID number"),
+    user=Depends(require_roles("Admin", "Manager", "Reception"))
+):
+    """Search guests by name, phone, email, or ID number."""
+    try:
+        if q:
+            guests = search_guests(q)
+        else:
+            guests = get_all_guests()
+        return {"guests": guests, "count": len(guests)}
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 @router.post("/", status_code=201)
 def create_guest_endpoint(

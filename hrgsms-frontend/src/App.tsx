@@ -5,6 +5,7 @@ import { RequireAuth, RequireRole } from "./features/auth/guards";
 import LoginPage from "./features/auth/LoginPage";
 import Dashboard from "./routes/Dashboard";
 import NewGuest from "./features/guests/NewGuest";
+import GuestsList from "./features/guests/GuestsList";
 import ViewGuest from "./features/guests/ViewGuest";
 import Availability from "./features/rooms/Availability";
 import NewReservation from "./features/reservations/NewReservation";
@@ -28,6 +29,15 @@ function App() {
           <RequireAuth>
             <Dashboard />
           </RequireAuth>
+        }
+      />
+
+      <Route
+        path="/guests"
+        element={
+          <RequireRole roles={["Admin", "Manager", "Reception"]}>
+            <GuestsList />
+          </RequireRole>
         }
       />
 

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 import { getRole, clearAuth } from "../lib/storage";
 import ThemeToggle from "./ThemeToggle";
@@ -19,6 +19,12 @@ export default function Layout({ children }: PropsWithChildren) {
             to="/"
           >
             Dashboard
+          </Link>
+          <Link
+            className="block px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
+            to="/guests"
+          >
+            Guests
           </Link>
           <Link
             className="block px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
