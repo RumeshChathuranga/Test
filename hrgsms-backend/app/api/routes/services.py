@@ -12,7 +12,7 @@ def add_service_usage_endpoint(
 ):
     """Add service usage for a booking."""
     try:
-        usage_id = add_service_usage(payload.booking_id, payload.service_id, payload.quantity)
+        usage_id = add_service_usage(payload.bookingID, payload.serviceID, payload.quantity)
         return {"usage_id": usage_id, "message": "Service usage added successfully"}
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))

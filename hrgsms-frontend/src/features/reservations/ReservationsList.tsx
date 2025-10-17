@@ -25,7 +25,9 @@ type Reservation = {
 
 export default function ReservationsList() {
   const [allReservations, setAllReservations] = useState<Reservation[]>([]);
-  const [filteredReservations, setFilteredReservations] = useState<Reservation[]>([]);
+  const [filteredReservations, setFilteredReservations] = useState<
+    Reservation[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -49,45 +51,51 @@ export default function ReservationsList() {
     // Apply search filter
     if (searchTerm.trim()) {
       const searchLower = searchTerm.toLowerCase();
-      filtered = filtered.filter(reservation =>
-        reservation.guestName.toLowerCase().includes(searchLower) ||
-        reservation.guestPhone.includes(searchTerm) ||
-        reservation.guestEmail.toLowerCase().includes(searchLower) ||
-        reservation.bookingID.toString().includes(searchTerm) ||
-        reservation.roomNo.toString().includes(searchTerm) ||
-        reservation.roomType.toLowerCase().includes(searchLower) ||
-        reservation.branchName.toLowerCase().includes(searchLower)
+      filtered = filtered.filter(
+        (reservation) =>
+          reservation.guestName.toLowerCase().includes(searchLower) ||
+          reservation.guestPhone.includes(searchTerm) ||
+          reservation.guestEmail.toLowerCase().includes(searchLower) ||
+          reservation.bookingID.toString().includes(searchTerm) ||
+          reservation.roomNo.toString().includes(searchTerm) ||
+          reservation.roomType.toLowerCase().includes(searchLower) ||
+          reservation.branchName.toLowerCase().includes(searchLower)
       );
     }
 
     // Apply branch filter
     if (branchFilter !== "all") {
-      filtered = filtered.filter(reservation => 
-        reservation.branchID.toString() === branchFilter
+      filtered = filtered.filter(
+        (reservation) => reservation.branchID.toString() === branchFilter
       );
     }
 
     // Apply date filter
     if (dateFilter !== "all") {
       const today = dayjs();
-      const tomorrow = today.add(1, 'day');
-      const week = today.add(7, 'days');
+      const tomorrow = today.add(1, "day");
+      const week = today.add(7, "days");
 
-      filtered = filtered.filter(reservation => {
+      filtered = filtered.filter((reservation) => {
         const checkIn = dayjs(reservation.checkInDate);
         const checkOut = dayjs(reservation.checkOutDate);
 
         switch (dateFilter) {
           case "today":
-            return checkIn.isSame(today, 'day') || checkOut.isSame(today, 'day');
+            return (
+              checkIn.isSame(today, "day") || checkOut.isSame(today, "day")
+            );
           case "tomorrow":
-            return checkIn.isSame(tomorrow, 'day') || checkOut.isSame(tomorrow, 'day');
+            return (
+              checkIn.isSame(tomorrow, "day") ||
+              checkOut.isSame(tomorrow, "day")
+            );
           case "this_week":
             return checkIn.isBefore(week) && checkOut.isAfter(today);
           case "past":
-            return checkOut.isBefore(today, 'day');
+            return checkOut.isBefore(today, "day");
           case "future":
-            return checkIn.isAfter(today, 'day');
+            return checkIn.isAfter(today, "day");
           default:
             return true;
         }
@@ -104,13 +112,13 @@ export default function ReservationsList() {
     try {
       let url = "/reservations/";
       const params = new URLSearchParams();
-      
+
       if (filter === "today") {
         params.append("today", "true");
       } else if (filter !== "all") {
         params.append("status", filter);
       }
-      
+
       if (params.toString()) {
         url += `?${params.toString()}`;
       }
@@ -134,7 +142,9 @@ export default function ReservationsList() {
     setError(null);
 
     try {
-      const response = await apiClient.post(`/reservations/${bookingID}/checkin`);
+      const response = await apiClient.post(
+        `/reservations/${bookingID}/checkin`
+      );
       setMessage(response.data?.message || "Guest checked in successfully");
       await loadReservations(); // Refresh the list
     } catch (err: any) {
@@ -152,7 +162,9 @@ export default function ReservationsList() {
     setError(null);
 
     try {
-      const response = await apiClient.post(`/reservations/${bookingID}/checkout`);
+      const response = await apiClient.post(
+        `/reservations/${bookingID}/checkout`
+      );
       setMessage(response.data?.message || "Guest checked out successfully");
       await loadReservations(); // Refresh the list
     } catch (err: any) {
@@ -179,16 +191,24 @@ export default function ReservationsList() {
   // Highlight search terms in text
   function highlightSearchTerm(text: string, searchTerm: string) {
     if (!searchTerm.trim()) return text;
-    
-    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+
+    const regex = new RegExp(
+      `(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+      "gi"
+    );
     const parts = text.split(regex);
-    
-    return parts.map((part, index) => 
+
+    return parts.map((part, index) =>
       regex.test(part) ? (
-        <mark key={index} className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">
+        <mark
+          key={index}
+          className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded"
+        >
           {part}
         </mark>
-      ) : part
+      ) : (
+        part
+      )
     );
   }
 
@@ -205,7 +225,7 @@ export default function ReservationsList() {
               View and manage all hotel reservations
             </p>
           </div>
-          
+
           {/* Filter Buttons */}
           <div className="mt-4 sm:mt-0 flex flex-wrap gap-2">
             <button
@@ -256,7 +276,7 @@ export default function ReservationsList() {
           <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
             🔍 Search & Filters
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Search Input */}
             <div className="lg:col-span-2">
@@ -329,9 +349,17 @@ export default function ReservationsList() {
           {(searchTerm || branchFilter !== "all" || dateFilter !== "all") && (
             <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
               <p className="text-sm text-blue-800 dark:text-blue-200">
-                📊 Showing {filteredReservations.length} of {allReservations.length} reservations
+                📊 Showing {filteredReservations.length} of{" "}
+                {allReservations.length} reservations
                 {searchTerm && ` matching "${searchTerm}"`}
-                {branchFilter !== "all" && ` in ${branchFilter === "1" ? "Kandy" : branchFilter === "2" ? "Galle" : "Colombo"}`}
+                {branchFilter !== "all" &&
+                  ` in ${
+                    branchFilter === "1"
+                      ? "Kandy"
+                      : branchFilter === "2"
+                      ? "Galle"
+                      : "Colombo"
+                  }`}
                 {dateFilter !== "all" && ` for ${dateFilter.replace("_", " ")}`}
               </p>
             </div>
@@ -343,8 +371,16 @@ export default function ReservationsList() {
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                <svg
+                  className="h-5 w-5 text-red-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <div className="ml-3">
@@ -363,8 +399,16 @@ export default function ReservationsList() {
           <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                <svg
+                  className="h-5 w-5 text-green-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <div className="ml-3">
@@ -412,8 +456,8 @@ export default function ReservationsList() {
                   No reservations found
                 </h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  {filter === "all" 
-                    ? "No reservations have been made yet." 
+                  {filter === "all"
+                    ? "No reservations have been made yet."
                     : `No reservations found for the selected filter: ${filter}`}
                 </p>
               </div>
@@ -444,34 +488,57 @@ export default function ReservationsList() {
                   </thead>
                   <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                     {filteredReservations.map((reservation: Reservation) => (
-                      <tr key={reservation.bookingID} className="hover:bg-slate-50 dark:hover:bg-slate-800">
+                      <tr
+                        key={reservation.bookingID}
+                        className="hover:bg-slate-50 dark:hover:bg-slate-800"
+                      >
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div>
                             <div className="text-sm font-medium text-slate-900 dark:text-slate-100">
-                              #{highlightSearchTerm(reservation.bookingID.toString(), searchTerm)}
+                              #
+                              {highlightSearchTerm(
+                                reservation.bookingID.toString(),
+                                searchTerm
+                              )}
                             </div>
                             <div className="text-sm text-slate-500 dark:text-slate-400">
-                              {reservation.stayDuration} day{reservation.stayDuration !== 1 ? 's' : ''}
+                              {reservation.stayDuration} day
+                              {reservation.stayDuration !== 1 ? "s" : ""}
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div>
                             <div className="text-sm font-medium text-slate-900 dark:text-slate-100">
-                              {highlightSearchTerm(reservation.guestName, searchTerm)}
+                              {highlightSearchTerm(
+                                reservation.guestName,
+                                searchTerm
+                              )}
                             </div>
                             <div className="text-sm text-slate-500 dark:text-slate-400">
-                              📞 {highlightSearchTerm(reservation.guestPhone, searchTerm)}
+                              📞{" "}
+                              {highlightSearchTerm(
+                                reservation.guestPhone,
+                                searchTerm
+                              )}
                             </div>
                             <div className="text-sm text-slate-500 dark:text-slate-400">
-                              ✉️ {highlightSearchTerm(reservation.guestEmail, searchTerm)}
+                              ✉️{" "}
+                              {highlightSearchTerm(
+                                reservation.guestEmail,
+                                searchTerm
+                              )}
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div>
                             <div className="text-sm font-medium text-slate-900 dark:text-slate-100">
-                              Room #{highlightSearchTerm(reservation.roomNo.toString(), searchTerm)}
+                              Room #
+                              {highlightSearchTerm(
+                                reservation.roomNo.toString(),
+                                searchTerm
+                              )}
                             </div>
                             <div className="text-sm text-slate-500 dark:text-slate-400">
                               {reservation.roomType}
@@ -487,18 +554,33 @@ export default function ReservationsList() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div>
                             <div className="text-sm text-slate-900 dark:text-slate-100">
-                              <span className="text-green-600 dark:text-green-400">In:</span> {dayjs(reservation.checkInDate).format("MMM D, YYYY")}
+                              <span className="text-green-600 dark:text-green-400">
+                                In:
+                              </span>{" "}
+                              {dayjs(reservation.checkInDate).format(
+                                "MMM D, YYYY"
+                              )}
                             </div>
                             <div className="text-sm text-slate-900 dark:text-slate-100">
-                              <span className="text-red-600 dark:text-red-400">Out:</span> {dayjs(reservation.checkOutDate).format("MMM D, YYYY")}
+                              <span className="text-red-600 dark:text-red-400">
+                                Out:
+                              </span>{" "}
+                              {dayjs(reservation.checkOutDate).format(
+                                "MMM D, YYYY"
+                              )}
                             </div>
                             <div className="text-sm text-slate-500 dark:text-slate-400">
-                              👥 {reservation.numGuests} guest{reservation.numGuests !== 1 ? 's' : ''}
+                              👥 {reservation.numGuests} guest
+                              {reservation.numGuests !== 1 ? "s" : ""}
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadgeColor(reservation.bookingStatus)}`}>
+                          <span
+                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadgeColor(
+                              reservation.bookingStatus
+                            )}`}
+                          >
                             {reservation.bookingStatus}
                           </span>
                           {reservation.actionRequired && (
@@ -511,7 +593,9 @@ export default function ReservationsList() {
                           <div className="flex justify-end space-x-2">
                             {reservation.bookingStatus === "Booked" && (
                               <button
-                                onClick={() => handleCheckin(reservation.bookingID)}
+                                onClick={() =>
+                                  handleCheckin(reservation.bookingID)
+                                }
                                 className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
                               >
                                 ✅ Check In
@@ -519,7 +603,9 @@ export default function ReservationsList() {
                             )}
                             {reservation.bookingStatus === "CheckedIn" && (
                               <button
-                                onClick={() => handleCheckout(reservation.bookingID)}
+                                onClick={() =>
+                                  handleCheckout(reservation.bookingID)
+                                }
                                 className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
                               >
                                 ❌ Check Out

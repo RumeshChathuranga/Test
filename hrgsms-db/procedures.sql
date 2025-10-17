@@ -50,10 +50,10 @@ BEGIN
   
   -- Get current service rate
   SELECT ratePerUnit INTO v_rate
-  FROM Chargeble_Service
+  FROM chargeble_service
   WHERE serviceID = p_serviceID;
   
-  INSERT INTO Service_Usage (bookingID, serviceID, rate, quantity, usedAt)
+  INSERT INTO service_usage (bookingID, serviceID, rate, quantity, usedAt)
   VALUES (p_bookingID, p_serviceID, v_rate, p_quantity, NOW());
   
   SELECT LAST_INSERT_ID() AS usageID;

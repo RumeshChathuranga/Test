@@ -88,7 +88,7 @@ function App() {
       />
 
       <Route
-        path="/services/usage"
+        path="/services"
         element={
           <RequireRole roles={["Admin", "Manager", "Reception"]}>
             <Usage />

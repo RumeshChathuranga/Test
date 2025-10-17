@@ -493,7 +493,8 @@ export default function NewReservation() {
                 🔄 Manage Reservations
               </h3>
               <p className="text-slate-600 dark:text-slate-400 mb-4">
-                Need to check-in or check-out guests? View and manage all reservations from the reservations management page.
+                Need to check-in or check-out guests? View and manage all
+                reservations from the reservations management page.
               </p>
               <a
                 href="/reservations"
