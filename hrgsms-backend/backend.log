@@ -1,0 +1,22 @@
+nohup: ignoring input
+INFO:     Will watch for changes in these directories: ['/home/rumeshchathuranga/Desktop/Shakeel/HRGSMS-36/hrgsms-backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [64344] using WatchFiles
+INFO:     Started server process [64346]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:59582 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39312 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39312 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39312 - "OPTIONS /dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39320 - "OPTIONS /dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39320 - "GET /dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39312 - "GET /dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43406 - "OPTIONS /reservations/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43406 - "POST /reservations/ HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:60270 - "POST /reservations/ HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:60270 - "POST /reservations/ HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:60284 - "GET /dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60300 - "GET /dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38344 - "GET /dashboard/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38358 - "GET /dashboard/stats HTTP/1.1" 200 OK

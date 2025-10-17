@@ -1,0 +1,8 @@
+
+5. Top used services and customer trends
+
+6. Geberating the final bill
+7. Partial payments
+8.triggers for logging processs
+9. triggers to check over payments
+10. checkinng whether fully paid befre checkout
