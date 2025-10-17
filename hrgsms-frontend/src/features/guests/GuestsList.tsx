@@ -34,31 +34,35 @@ export default function GuestsList() {
     try {
       setLoading(true);
       setError(null);
-      
+
       const params = search ? { q: search } : {};
-      const res = await apiClient.get<SearchResponse>("/guests/search", { params });
-      
+      const res = await apiClient.get<SearchResponse>("/guests/search", {
+        params,
+      });
+
       setGuests(res.data.guests || []);
     } catch (e: any) {
       console.error("Error loading guests:", e);
-      
+
       // Handle different types of errors
       let errorMessage = "Failed to load guests";
-      
+
       if (e?.response?.status === 401 || e?.response?.status === 403) {
         errorMessage = "Authentication required. Please log in again.";
       } else if (e?.response?.status === 422) {
         // Handle validation errors
         const detail = e?.response?.data?.detail;
         if (Array.isArray(detail)) {
-          errorMessage = `Validation error: ${detail.map(err => err.msg).join(", ")}`;
-        } else if (typeof detail === 'string') {
+          errorMessage = `Validation error: ${detail
+            .map((err) => err.msg)
+            .join(", ")}`;
+        } else if (typeof detail === "string") {
           errorMessage = detail;
         } else {
           errorMessage = "Invalid request parameters";
         }
       } else if (e?.response?.data?.detail) {
-        if (typeof e.response.data.detail === 'string') {
+        if (typeof e.response.data.detail === "string") {
           errorMessage = e.response.data.detail;
         } else {
           errorMessage = "Server error occurred";
@@ -66,7 +70,7 @@ export default function GuestsList() {
       } else if (e?.message) {
         errorMessage = e.message;
       }
-      
+
       setError(errorMessage);
       setGuests([]);
     } finally {
@@ -144,7 +148,7 @@ export default function GuestsList() {
               </button>
             )}
           </div>
-          
+
           {(searching || loading) && (
             <div className="mt-2 text-sm text-slate-500">
               {searching ? "Searching..." : "Loading..."}
@@ -163,7 +167,9 @@ export default function GuestsList() {
           <>
             <div className="mb-4 text-sm text-slate-600 dark:text-slate-400">
               {searchTerm ? (
-                <>Found {guests.length} guest(s) matching "{searchTerm}"</>
+                <>
+                  Found {guests.length} guest(s) matching "{searchTerm}"
+                </>
               ) : (
                 <>Showing {guests.length} guest(s)</>
               )}

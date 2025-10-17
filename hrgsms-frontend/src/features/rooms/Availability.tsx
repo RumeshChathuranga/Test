@@ -58,9 +58,9 @@ export default function Availability() {
               onChange={(e) => setBranchId(Number(e.target.value))}
               className="mt-1 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
             >
-              <option value={1}>Colombo (1)</option>
-              <option value={2}>Kandy (2)</option>
-              <option value={3}>Galle (3)</option>
+              <option value={1}>Kandy</option>
+              <option value={2}>Galle</option>
+              <option value={3}>Colombo</option>
             </select>
           </div>
           <div>
