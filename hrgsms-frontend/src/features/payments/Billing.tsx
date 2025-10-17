@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Layout from "../../components/Layout";
 import apiClient from "../../api/client";
 
@@ -174,9 +175,10 @@ export function CreateInvoice() {
 }
 
 export function AddPayment() {
+  const [searchParams] = useSearchParams();
   const [form, setForm] = useState({
-    invoice_id: "",
-    amount: "",
+    invoice_id: searchParams.get("invoiceId") || "",
+    amount: searchParams.get("amount") || "",
     payment_method: "Card",
   });
   const [loading, setLoading] = useState(false);
@@ -216,16 +218,16 @@ export function AddPayment() {
         amount: Number(form.amount),
         paymentMethod: form.payment_method,
       });
-      
+
       setMessage(`✅ Payment processed successfully! 
       
-💰 Amount: $${Number(form.amount).toFixed(2)}
+💰 Amount: Rs ${Number(form.amount).toFixed(2)}
 🏦 Method: ${form.payment_method}
 📋 Transaction ID: ${res.data.transaction_id}
 📄 Invoice ID: ${form.invoice_id}
 
 The payment has been recorded and the invoice balance will be updated automatically.`);
-      
+
       // Reset form
       setForm({
         invoice_id: "",
@@ -286,7 +288,7 @@ The payment has been recorded and the invoice balance will be updated automatica
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 font-semibold">
-                    $
+                    Rs
                   </span>
                   <input
                     type="number"
@@ -295,7 +297,7 @@ The payment has been recorded and the invoice balance will be updated automatica
                     placeholder="0.00"
                     step="0.01"
                     min="0.01"
-                    className="w-full pl-8 pr-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-500 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-colors text-lg font-mono"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-500 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-colors text-lg font-mono"
                     required
                   />
                 </div>
@@ -387,7 +389,8 @@ The payment has been recorded and the invoice balance will be updated automatica
                 🔒 Secure Processing
               </h3>
               <p className="text-blue-600 dark:text-blue-400 text-sm">
-                All payments are processed securely with automatic transaction tracking and audit trails.
+                All payments are processed securely with automatic transaction
+                tracking and audit trails.
               </p>
             </div>
 
@@ -431,10 +434,17 @@ The payment has been recorded and the invoice balance will be updated automatica
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-yellow-600 dark:text-yellow-400 text-sm">
             <div>
-              <p><strong>Partial Payments:</strong> Customers can pay any amount towards their invoice. The system will track the remaining balance automatically.</p>
+              <p>
+                <strong>Partial Payments:</strong> Customers can pay any amount
+                towards their invoice. The system will track the remaining
+                balance automatically.
+              </p>
             </div>
             <div>
-              <p><strong>Payment Methods:</strong> Choose the appropriate method to ensure proper accounting and reporting.</p>
+              <p>
+                <strong>Payment Methods:</strong> Choose the appropriate method
+                to ensure proper accounting and reporting.
+              </p>
             </div>
           </div>
         </div>
@@ -442,3 +452,6 @@ The payment has been recorded and the invoice balance will be updated automatica
     </Layout>
   );
 }
+
+// Re-export the InvoiceList component
+export { InvoiceList } from './InvoiceList';

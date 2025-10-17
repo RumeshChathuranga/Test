@@ -68,6 +68,12 @@ export default function Layout({ children }: PropsWithChildren) {
           >
             Add Payment
           </Link>
+          <Link
+            className="block px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
+            to="/billing/invoices"
+          >
+            View Invoices
+          </Link>
           {(role === "Admin" || role === "Manager") && (
             <div className="pt-2 mt-2 border-t border-slate-200 dark:border-slate-800">
               <div className="text-xs uppercase text-slate-500 mb-1">

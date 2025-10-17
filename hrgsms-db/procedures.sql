@@ -716,6 +716,45 @@ BEGIN
 END$$
 
 -- ================================
+-- Invoice Management Procedures
+-- ================================
+
+DROP PROCEDURE IF EXISTS sp_get_all_invoices$$
+
+CREATE PROCEDURE sp_get_all_invoices()
+BEGIN
+    SELECT 
+        i.invoiceID,
+        i.bookingID,
+        i.roomCharges,
+        i.serviceCharges,
+        i.discountAmount,
+        i.taxAmount,
+        i.settledAmount,
+        i.invoiceStatus,
+        (i.roomCharges + i.serviceCharges + i.taxAmount - i.discountAmount) as totalAmount,
+        (i.roomCharges + i.serviceCharges + i.taxAmount - i.discountAmount - i.settledAmount) as balanceAmount,
+        g.firstName,
+        g.lastName,
+        g.phone,
+        g.email,
+        r.roomNo,
+        rt.typeName as roomType,
+        b.checkInDate,
+        b.checkOutDate
+    FROM invoice i
+    INNER JOIN booking b ON i.bookingID = b.bookingID
+    INNER JOIN guest g ON b.guestID = g.guestID
+    INNER JOIN room r ON b.roomID = r.roomID
+    INNER JOIN room_type rt ON r.typeID = rt.typeID
+    ORDER BY i.invoiceID DESC;
+END$$
+
+DELIMITER ;
+
+-- ==========================================
+
+-- ================================
 -- Booking Creation Procedure
 -- ================================
 

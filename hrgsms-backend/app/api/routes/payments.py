@@ -1,7 +1,7 @@
 # app/api/routes/payments.py
 from fastapi import APIRouter, Depends, HTTPException, status
 from ...models.schemas import InvoiceCreate, PaymentCreate
-from ...services.payment_service import create_invoice, add_payment
+from ...services.payment_service import create_invoice, add_payment, get_all_invoices
 from ...api.dependancies import require_roles
 
 router = APIRouter(prefix="/payments", tags=["payments"])
@@ -29,3 +29,12 @@ def add_payment_endpoint(
         return {"transaction_id": transaction_id, "message": "Payment added successfully"}
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+@router.get("/invoices")
+def get_invoices_endpoint(user=Depends(require_roles("Admin", "Manager", "Reception"))):
+    """Get all invoices with guest and booking details."""
+    try:
+        invoices = get_all_invoices()
+        return {"invoices": invoices, "total": len(invoices)}
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))

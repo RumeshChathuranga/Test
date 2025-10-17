@@ -12,6 +12,7 @@ import NewReservation from "./features/reservations/NewReservation";
 import ReservationsList from "./features/reservations/ReservationsList";
 import Usage from "./features/services/Usage";
 import { CreateInvoice, AddPayment } from "./features/payments/Billing";
+import { InvoiceList } from "./features/payments/InvoiceList";
 import {
   RevenueReport,
   OccupancyReport,
@@ -110,6 +111,15 @@ function App() {
         element={
           <RequireRole roles={["Admin", "Manager", "Reception"]}>
             <AddPayment />
+          </RequireRole>
+        }
+      />
+
+      <Route
+        path="/billing/invoices"
+        element={
+          <RequireRole roles={["Admin", "Manager", "Reception"]}>
+            <InvoiceList />
           </RequireRole>
         }
       />
