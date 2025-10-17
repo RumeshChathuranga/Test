@@ -947,12 +947,6 @@ BEGIN
 END$$
 
 DELIMITER ;
-        SET v_bookingID = LAST_INSERT_ID();
-        
-        -- Return the booking ID
-        SELECT v_bookingID as bookingID;
-    END IF;
-END$$
 
 DELIMITER ;
 

@@ -31,9 +31,18 @@ export function RevenueReport() {
   }
 
   // Calculate totals
-  const totalRevenue = data.reduce((sum, item) => sum + (item.daily_revenue || 0), 0);
-  const totalInvoices = data.reduce((sum, item) => sum + (item.total_invoices || 0), 0);
-  const totalBookings = data.reduce((sum, item) => sum + (item.total_bookings || 0), 0);
+  const totalRevenue = data.reduce(
+    (sum, item) => sum + (item.daily_revenue || 0),
+    0
+  );
+  const totalInvoices = data.reduce(
+    (sum, item) => sum + (item.total_invoices || 0),
+    0
+  );
+  const totalBookings = data.reduce(
+    (sum, item) => sum + (item.total_bookings || 0),
+    0
+  );
   const avgDailyRevenue = data.length > 0 ? totalRevenue / data.length : 0;
 
   return (
@@ -51,7 +60,9 @@ export function RevenueReport() {
 
         {/* Filters */}
         <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
-          <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">Report Filters</h2>
+          <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">
+            Report Filters
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -112,8 +123,12 @@ export function RevenueReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Revenue</p>
-                  <p className="text-2xl font-bold text-green-600">Rs {totalRevenue.toFixed(2)}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Total Revenue
+                  </p>
+                  <p className="text-2xl font-bold text-green-600">
+                    Rs {totalRevenue.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-green-100 dark:bg-green-900/20 p-3 rounded-full">
                   <span className="text-2xl">💰</span>
@@ -123,8 +138,12 @@ export function RevenueReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Invoices</p>
-                  <p className="text-2xl font-bold text-blue-600">{totalInvoices}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Total Invoices
+                  </p>
+                  <p className="text-2xl font-bold text-blue-600">
+                    {totalInvoices}
+                  </p>
                 </div>
                 <div className="bg-blue-100 dark:bg-blue-900/20 p-3 rounded-full">
                   <span className="text-2xl">📋</span>
@@ -134,8 +153,12 @@ export function RevenueReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Bookings</p>
-                  <p className="text-2xl font-bold text-purple-600">{totalBookings}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Total Bookings
+                  </p>
+                  <p className="text-2xl font-bold text-purple-600">
+                    {totalBookings}
+                  </p>
                 </div>
                 <div className="bg-purple-100 dark:bg-purple-900/20 p-3 rounded-full">
                   <span className="text-2xl">🏨</span>
@@ -145,8 +168,12 @@ export function RevenueReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Avg Daily Revenue</p>
-                  <p className="text-2xl font-bold text-orange-600">Rs {avgDailyRevenue.toFixed(2)}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Avg Daily Revenue
+                  </p>
+                  <p className="text-2xl font-bold text-orange-600">
+                    Rs {avgDailyRevenue.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-orange-100 dark:bg-orange-900/20 p-3 rounded-full">
                   <span className="text-2xl">📈</span>
@@ -169,25 +196,44 @@ export function RevenueReport() {
         {!loading && !error && (
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">Daily Revenue Breakdown</h3>
+              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
+                Daily Revenue Breakdown
+              </h3>
             </div>
             <div className="overflow-x-auto">
               {data.length > 0 ? (
                 <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                   <thead className="bg-slate-50 dark:bg-slate-900">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Revenue</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Invoices</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Bookings</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Room Revenue</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Service Revenue</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tax Collected</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Date
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Revenue
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Invoices
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Bookings
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Room Revenue
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Service Revenue
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Tax Collected
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
                     {data.map((item, index) => (
-                      <tr key={index} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                      <tr
+                        key={index}
+                        className="hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                      >
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">
                           {new Date(item.date).toLocaleDateString()}
                         </td>
@@ -215,7 +261,9 @@ export function RevenueReport() {
                 </table>
               ) : (
                 <div className="px-6 py-8 text-center">
-                  <p className="text-slate-500 dark:text-slate-400">No revenue data found for the selected period.</p>
+                  <p className="text-slate-500 dark:text-slate-400">
+                    No revenue data found for the selected period.
+                  </p>
                 </div>
               )}
             </div>
@@ -255,13 +303,17 @@ export function OccupancyReport() {
   }
 
   // Calculate averages
-  const avgOccupancyRate = data.length > 0 
-    ? data.reduce((sum, item) => sum + (item.occupancy_percentage || 0), 0) / data.length 
-    : 0;
+  const avgOccupancyRate =
+    data.length > 0
+      ? data.reduce((sum, item) => sum + (item.occupancy_percentage || 0), 0) /
+        data.length
+      : 0;
   const totalRooms = data.length > 0 ? data[0]?.total_rooms || 0 : 0;
-  const avgOccupiedRooms = data.length > 0 
-    ? data.reduce((sum, item) => sum + (item.occupied_rooms || 0), 0) / data.length 
-    : 0;
+  const avgOccupiedRooms =
+    data.length > 0
+      ? data.reduce((sum, item) => sum + (item.occupied_rooms || 0), 0) /
+        data.length
+      : 0;
 
   return (
     <Layout>
@@ -278,7 +330,9 @@ export function OccupancyReport() {
 
         {/* Filters */}
         <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
-          <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">Report Filters</h2>
+          <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">
+            Report Filters
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -339,8 +393,12 @@ export function OccupancyReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Average Occupancy Rate</p>
-                  <p className="text-3xl font-bold text-blue-600">{avgOccupancyRate.toFixed(1)}%</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Average Occupancy Rate
+                  </p>
+                  <p className="text-3xl font-bold text-blue-600">
+                    {avgOccupancyRate.toFixed(1)}%
+                  </p>
                 </div>
                 <div className="bg-blue-100 dark:bg-blue-900/20 p-3 rounded-full">
                   <span className="text-2xl">📊</span>
@@ -350,8 +408,12 @@ export function OccupancyReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Rooms</p>
-                  <p className="text-3xl font-bold text-slate-700 dark:text-slate-200">{totalRooms}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Total Rooms
+                  </p>
+                  <p className="text-3xl font-bold text-slate-700 dark:text-slate-200">
+                    {totalRooms}
+                  </p>
                 </div>
                 <div className="bg-slate-100 dark:bg-slate-700 p-3 rounded-full">
                   <span className="text-2xl">🏠</span>
@@ -361,8 +423,12 @@ export function OccupancyReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Avg Occupied Rooms</p>
-                  <p className="text-3xl font-bold text-green-600">{Math.round(avgOccupiedRooms)}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Avg Occupied Rooms
+                  </p>
+                  <p className="text-3xl font-bold text-green-600">
+                    {Math.round(avgOccupiedRooms)}
+                  </p>
                 </div>
                 <div className="bg-green-100 dark:bg-green-900/20 p-3 rounded-full">
                   <span className="text-2xl">✅</span>
@@ -385,31 +451,56 @@ export function OccupancyReport() {
         {!loading && !error && (
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">Daily Occupancy Details</h3>
+              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
+                Daily Occupancy Details
+              </h3>
             </div>
             <div className="overflow-x-auto">
               {data.length > 0 ? (
                 <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                   <thead className="bg-slate-50 dark:bg-slate-900">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Rooms</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Occupied</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Available</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Occupancy Rate</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Date
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Total Rooms
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Occupied
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Available
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Occupancy Rate
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
                     {data.map((item, index) => {
                       const occupancyRate = item.occupancy_percentage || 0;
-                      const statusColor = occupancyRate >= 80 ? 'text-green-600' : 
-                                        occupancyRate >= 60 ? 'text-yellow-600' : 'text-red-600';
-                      const statusText = occupancyRate >= 80 ? 'High' : 
-                                       occupancyRate >= 60 ? 'Medium' : 'Low';
-                      
+                      const statusColor =
+                        occupancyRate >= 80
+                          ? "text-green-600"
+                          : occupancyRate >= 60
+                          ? "text-yellow-600"
+                          : "text-red-600";
+                      const statusText =
+                        occupancyRate >= 80
+                          ? "High"
+                          : occupancyRate >= 60
+                          ? "Medium"
+                          : "Low";
+
                       return (
-                        <tr key={index} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                        <tr
+                          key={index}
+                          className="hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                        >
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">
                             {new Date(item.date).toLocaleDateString()}
                           </td>
@@ -420,21 +511,28 @@ export function OccupancyReport() {
                             {item.occupied_rooms || 0}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900 dark:text-white">
-                            {(item.total_rooms || 0) - (item.occupied_rooms || 0)}
+                            {(item.total_rooms || 0) -
+                              (item.occupied_rooms || 0)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900 dark:text-white">
                             <div className="flex items-center gap-2">
                               <div className="w-16 bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                                <div 
-                                  className="bg-blue-600 h-2 rounded-full transition-all" 
-                                  style={{ width: `${Math.min(occupancyRate, 100)}%` }}
+                                <div
+                                  className="bg-blue-600 h-2 rounded-full transition-all"
+                                  style={{
+                                    width: `${Math.min(occupancyRate, 100)}%`,
+                                  }}
                                 />
                               </div>
-                              <span className="font-mono">{occupancyRate.toFixed(1)}%</span>
+                              <span className="font-mono">
+                                {occupancyRate.toFixed(1)}%
+                              </span>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-opacity-10 ${statusColor}`}>
+                            <span
+                              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-opacity-10 ${statusColor}`}
+                            >
                               {statusText}
                             </span>
                           </td>
@@ -445,7 +543,9 @@ export function OccupancyReport() {
                 </table>
               ) : (
                 <div className="px-6 py-8 text-center">
-                  <p className="text-slate-500 dark:text-slate-400">No occupancy data found for the selected period.</p>
+                  <p className="text-slate-500 dark:text-slate-400">
+                    No occupancy data found for the selected period.
+                  </p>
                 </div>
               )}
             </div>
@@ -485,10 +585,16 @@ export function GuestBillingReport() {
   }
 
   // Calculate totals
-  const totalAmount = data.reduce((sum, item) => sum + (item.total_amount || 0), 0);
+  const totalAmount = data.reduce(
+    (sum, item) => sum + (item.total_amount || 0),
+    0
+  );
   const totalPaid = data.reduce((sum, item) => sum + (item.total_paid || 0), 0);
-  const totalOutstanding = data.reduce((sum, item) => sum + (item.outstanding_balance || 0), 0);
-  const uniqueGuests = new Set(data.map(item => item.guest_id)).size;
+  const totalOutstanding = data.reduce(
+    (sum, item) => sum + (item.outstanding_balance || 0),
+    0
+  );
+  const uniqueGuests = new Set(data.map((item) => item.guest_id)).size;
 
   return (
     <Layout>
@@ -505,7 +611,9 @@ export function GuestBillingReport() {
 
         {/* Filters */}
         <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
-          <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">Report Filters</h2>
+          <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">
+            Report Filters
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -566,8 +674,12 @@ export function GuestBillingReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Billed</p>
-                  <p className="text-2xl font-bold text-purple-600">Rs {totalAmount.toFixed(2)}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Total Billed
+                  </p>
+                  <p className="text-2xl font-bold text-purple-600">
+                    Rs {totalAmount.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-purple-100 dark:bg-purple-900/20 p-3 rounded-full">
                   <span className="text-2xl">💰</span>
@@ -577,8 +689,12 @@ export function GuestBillingReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Paid</p>
-                  <p className="text-2xl font-bold text-green-600">Rs {totalPaid.toFixed(2)}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Total Paid
+                  </p>
+                  <p className="text-2xl font-bold text-green-600">
+                    Rs {totalPaid.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-green-100 dark:bg-green-900/20 p-3 rounded-full">
                   <span className="text-2xl">✅</span>
@@ -588,8 +704,12 @@ export function GuestBillingReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Outstanding</p>
-                  <p className="text-2xl font-bold text-red-600">Rs {totalOutstanding.toFixed(2)}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Outstanding
+                  </p>
+                  <p className="text-2xl font-bold text-red-600">
+                    Rs {totalOutstanding.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-red-100 dark:bg-red-900/20 p-3 rounded-full">
                   <span className="text-2xl">⚠️</span>
@@ -599,8 +719,12 @@ export function GuestBillingReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Unique Guests</p>
-                  <p className="text-2xl font-bold text-blue-600">{uniqueGuests}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Unique Guests
+                  </p>
+                  <p className="text-2xl font-bold text-blue-600">
+                    {uniqueGuests}
+                  </p>
                 </div>
                 <div className="bg-blue-100 dark:bg-blue-900/20 p-3 rounded-full">
                   <span className="text-2xl">👥</span>
@@ -623,29 +747,48 @@ export function GuestBillingReport() {
         {!loading && !error && (
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">Guest Billing Details</h3>
+              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
+                Guest Billing Details
+              </h3>
             </div>
             <div className="overflow-x-auto">
               {data.length > 0 ? (
                 <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                   <thead className="bg-slate-50 dark:bg-slate-900">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Guest</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Contact</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Check-in</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Amount</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Amount Paid</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Outstanding</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Guest
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Contact
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Check-in
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Total Amount
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Amount Paid
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Outstanding
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
                     {data.map((item, index) => {
                       const outstanding = item.outstanding_balance || 0;
                       const isPaid = outstanding <= 0;
-                      
+
                       return (
-                        <tr key={index} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                        <tr
+                          key={index}
+                          className="hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                        >
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div>
                               <div className="text-sm font-medium text-slate-900 dark:text-white">
@@ -657,11 +800,19 @@ export function GuestBillingReport() {
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-slate-900 dark:text-white">{item.email}</div>
-                            <div className="text-sm text-slate-500 dark:text-slate-400">{item.phone}</div>
+                            <div className="text-sm text-slate-900 dark:text-white">
+                              {item.email}
+                            </div>
+                            <div className="text-sm text-slate-500 dark:text-slate-400">
+                              {item.phone}
+                            </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900 dark:text-white">
-                            {item.check_in_date ? new Date(item.check_in_date).toLocaleDateString() : 'N/A'}
+                            {item.check_in_date
+                              ? new Date(
+                                  item.check_in_date
+                                ).toLocaleDateString()
+                              : "N/A"}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900 dark:text-white font-mono">
                             Rs {item.total_amount?.toFixed(2) || "0.00"}
@@ -670,17 +821,25 @@ export function GuestBillingReport() {
                             Rs {item.total_paid?.toFixed(2) || "0.00"}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-mono">
-                            <span className={outstanding > 0 ? "text-red-600" : "text-green-600"}>
+                            <span
+                              className={
+                                outstanding > 0
+                                  ? "text-red-600"
+                                  : "text-green-600"
+                              }
+                            >
                               Rs {outstanding.toFixed(2)}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              isPaid 
-                                ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
-                                : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
-                            }`}>
-                              {isPaid ? 'Paid' : 'Outstanding'}
+                            <span
+                              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                isPaid
+                                  ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+                                  : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+                              }`}
+                            >
+                              {isPaid ? "Paid" : "Outstanding"}
                             </span>
                           </td>
                         </tr>
@@ -690,7 +849,9 @@ export function GuestBillingReport() {
                 </table>
               ) : (
                 <div className="px-6 py-8 text-center">
-                  <p className="text-slate-500 dark:text-slate-400">No guest billing data found for the selected period.</p>
+                  <p className="text-slate-500 dark:text-slate-400">
+                    No guest billing data found for the selected period.
+                  </p>
                 </div>
               )}
             </div>
@@ -730,10 +891,17 @@ export function ServiceUsageReport() {
   }
 
   // Calculate totals
-  const totalRevenue = data.reduce((sum, item) => sum + (item.total_revenue || 0), 0);
-  const totalServices = data.reduce((sum, item) => sum + (item.service_count || 0), 0);
-  const uniqueRooms = new Set(data.map(item => item.room_number)).size;
-  const avgRevenuePerService = totalServices > 0 ? totalRevenue / totalServices : 0;
+  const totalRevenue = data.reduce(
+    (sum, item) => sum + (item.total_revenue || 0),
+    0
+  );
+  const totalServices = data.reduce(
+    (sum, item) => sum + (item.service_count || 0),
+    0
+  );
+  const uniqueRooms = new Set(data.map((item) => item.room_number)).size;
+  const avgRevenuePerService =
+    totalServices > 0 ? totalRevenue / totalServices : 0;
 
   return (
     <Layout>
@@ -750,7 +918,9 @@ export function ServiceUsageReport() {
 
         {/* Filters */}
         <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
-          <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">Report Filters</h2>
+          <h2 className="text-lg font-semibold mb-4 text-slate-800 dark:text-white">
+            Report Filters
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -811,8 +981,12 @@ export function ServiceUsageReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Revenue</p>
-                  <p className="text-2xl font-bold text-orange-600">Rs {totalRevenue.toFixed(2)}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Total Revenue
+                  </p>
+                  <p className="text-2xl font-bold text-orange-600">
+                    Rs {totalRevenue.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-orange-100 dark:bg-orange-900/20 p-3 rounded-full">
                   <span className="text-2xl">💰</span>
@@ -822,8 +996,12 @@ export function ServiceUsageReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Services</p>
-                  <p className="text-2xl font-bold text-blue-600">{totalServices}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Total Services
+                  </p>
+                  <p className="text-2xl font-bold text-blue-600">
+                    {totalServices}
+                  </p>
                 </div>
                 <div className="bg-blue-100 dark:bg-blue-900/20 p-3 rounded-full">
                   <span className="text-2xl">🛎️</span>
@@ -833,8 +1011,12 @@ export function ServiceUsageReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Rooms Served</p>
-                  <p className="text-2xl font-bold text-purple-600">{uniqueRooms}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Rooms Served
+                  </p>
+                  <p className="text-2xl font-bold text-purple-600">
+                    {uniqueRooms}
+                  </p>
                 </div>
                 <div className="bg-purple-100 dark:bg-purple-900/20 p-3 rounded-full">
                   <span className="text-2xl">🏠</span>
@@ -844,8 +1026,12 @@ export function ServiceUsageReport() {
             <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Avg per Service</p>
-                  <p className="text-2xl font-bold text-green-600">Rs {avgRevenuePerService.toFixed(2)}</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                    Avg per Service
+                  </p>
+                  <p className="text-2xl font-bold text-green-600">
+                    Rs {avgRevenuePerService.toFixed(2)}
+                  </p>
                 </div>
                 <div className="bg-green-100 dark:bg-green-900/20 p-3 rounded-full">
                   <span className="text-2xl">📊</span>
@@ -868,35 +1054,61 @@ export function ServiceUsageReport() {
         {!loading && !error && (
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">Service Usage by Room</h3>
+              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
+                Service Usage by Room
+              </h3>
             </div>
             <div className="overflow-x-auto">
               {data.length > 0 ? (
                 <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                   <thead className="bg-slate-50 dark:bg-slate-900">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Room</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Room Type</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Services Used</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Revenue</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Avg per Service</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Usage Level</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Room
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Room Type
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Services Used
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Total Revenue
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Avg per Service
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Usage Level
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
                     {data.map((item, index) => {
                       const serviceCount = item.service_count || 0;
                       const revenue = item.total_revenue || 0;
-                      const avgPerService = serviceCount > 0 ? revenue / serviceCount : 0;
-                      
+                      const avgPerService =
+                        serviceCount > 0 ? revenue / serviceCount : 0;
+
                       // Determine usage level based on service count
-                      const usageLevel = serviceCount >= 10 ? 'High' : 
-                                        serviceCount >= 5 ? 'Medium' : 'Low';
-                      const usageColor = serviceCount >= 10 ? 'text-green-600' : 
-                                        serviceCount >= 5 ? 'text-yellow-600' : 'text-red-600';
-                      
+                      const usageLevel =
+                        serviceCount >= 10
+                          ? "High"
+                          : serviceCount >= 5
+                          ? "Medium"
+                          : "Low";
+                      const usageColor =
+                        serviceCount >= 10
+                          ? "text-green-600"
+                          : serviceCount >= 5
+                          ? "text-yellow-600"
+                          : "text-red-600";
+
                       return (
-                        <tr key={index} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                        <tr
+                          key={index}
+                          className="hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                        >
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="text-sm font-medium text-slate-900 dark:text-white">
@@ -905,15 +1117,22 @@ export function ServiceUsageReport() {
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900 dark:text-white">
-                            {item.room_type || 'N/A'}
+                            {item.room_type || "N/A"}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-semibold text-blue-600">{serviceCount}</span>
+                              <span className="text-sm font-semibold text-blue-600">
+                                {serviceCount}
+                              </span>
                               <div className="w-16 bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                                <div 
-                                  className="bg-blue-600 h-2 rounded-full transition-all" 
-                                  style={{ width: `${Math.min((serviceCount / 20) * 100, 100)}%` }}
+                                <div
+                                  className="bg-blue-600 h-2 rounded-full transition-all"
+                                  style={{
+                                    width: `${Math.min(
+                                      (serviceCount / 20) * 100,
+                                      100
+                                    )}%`,
+                                  }}
                                 />
                               </div>
                             </div>
@@ -925,7 +1144,9 @@ export function ServiceUsageReport() {
                             Rs {avgPerService.toFixed(2)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-opacity-10 ${usageColor}`}>
+                            <span
+                              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-opacity-10 ${usageColor}`}
+                            >
                               {usageLevel}
                             </span>
                           </td>
@@ -936,7 +1157,9 @@ export function ServiceUsageReport() {
                 </table>
               ) : (
                 <div className="px-6 py-8 text-center">
-                  <p className="text-slate-500 dark:text-slate-400">No service usage data found for the selected period.</p>
+                  <p className="text-slate-500 dark:text-slate-400">
+                    No service usage data found for the selected period.
+                  </p>
                 </div>
               )}
             </div>
