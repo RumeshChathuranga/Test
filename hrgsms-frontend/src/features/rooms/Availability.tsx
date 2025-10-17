@@ -9,9 +9,10 @@ type Room = {
   roomNo: number;
   typeName: string;
   capacity: number;
-  currRate: number;
+  basePrice: number;
   roomStatus: string;
-  location: string;
+  typeID: number;
+  typeDescription: string;
 };
 
 export default function Availability() {
@@ -34,7 +35,7 @@ export default function Availability() {
       checkIn: checkIn,
       checkOut: checkOut,
       typeName: room.typeName,
-      rate: room.currRate.toString(),
+      rate: room.basePrice.toString(),
       capacity: room.capacity.toString(),
     });
     navigate(`/reservations/new?${params.toString()}`);
@@ -320,10 +321,10 @@ export default function Availability() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-slate-600 dark:text-slate-400">
-                        Location:
+                        Room Type:
                       </span>
                       <span className="font-semibold text-slate-900 dark:text-slate-100">
-                        📍 {r.location}
+                        🏠 {r.typeDescription}
                       </span>
                     </div>
                   </div>
@@ -336,7 +337,7 @@ export default function Availability() {
                       </span>
                       <div className="text-right">
                         <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                          Rs. {r.currRate.toLocaleString()}
+                          Rs. {r.basePrice.toLocaleString()}
                         </div>
                         <div className="text-xs text-slate-500">
                           + taxes & fees

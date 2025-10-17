@@ -79,7 +79,6 @@ class ServiceUsageCreate(BaseModel):
 # --- Payments ---
 class InvoiceCreate(BaseModel):
     bookingID: int
-    policyID: Optional[int] = None
     discountCode: Optional[int] = None
 
 class PaymentCreate(BaseModel):

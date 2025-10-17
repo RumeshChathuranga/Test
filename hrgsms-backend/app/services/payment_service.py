@@ -1,9 +1,9 @@
 from ..database.queries import call_proc
 from typing import Dict
 
-def create_invoice(booking_id: int, policy_id: int = None, discount_code: int = None) -> int:
+def create_invoice(booking_id: int, discount_code: int = None) -> int:
     """Create invoice for a booking using stored procedure."""
-    result = call_proc("sp_create_invoice", (booking_id, policy_id, discount_code))
+    result = call_proc("sp_create_invoice", (booking_id, discount_code))
     if result and len(result) > 0:
         return result[0]["invoiceID"]
     raise Exception("Failed to create invoice")

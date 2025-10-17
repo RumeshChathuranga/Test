@@ -13,7 +13,7 @@ def create_invoice_endpoint(
 ):
     """Create an invoice for a booking."""
     try:
-        invoice_id = create_invoice(payload.booking_id, payload.policy_id, payload.discount_code)
+        invoice_id = create_invoice(payload.bookingID, payload.discountCode)
         return {"invoice_id": invoice_id, "message": "Invoice created successfully"}
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))

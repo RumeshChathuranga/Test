@@ -34,7 +34,7 @@ def create_guest(first_name: str, last_name: str, phone: str,
                 email: str, id_number: str) -> int:
     """Create a new guest using stored procedure."""
     try:
-        result = call_proc("sp_create_guest_fixed", (first_name, last_name, phone, email, id_number))
+        result = call_proc("sp_create_guest", (first_name, last_name, phone, email, id_number))
         if result and len(result) > 0:
             return result[0]["guestID"]
         raise Exception("Failed to create guest")
@@ -45,7 +45,7 @@ def create_guest(first_name: str, last_name: str, phone: str,
 def get_guest(guest_id: int) -> Optional[Dict]:
     """Get guest information using stored procedure."""
     try:
-        result = call_proc("sp_get_guest_by_id_fixed", (guest_id,))
+        result = call_proc("sp_get_guest_by_id", (guest_id,))
         if result and len(result) > 0:
             return result[0]
         return None

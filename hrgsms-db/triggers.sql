@@ -1,3 +1,10 @@
+-- ==========================================
+-- TRIGGERS - Hotel Reservation System
+-- ==========================================
+-- Description: Automated database triggers for room status management
+-- Last Updated: Current consolidation
+-- ==========================================
+
 DELIMITER $$
 
 -- Trigger to update room status to 'Occupied' on check-in

@@ -9,79 +9,90 @@ INSERT INTO `room_type` (typeID, typeName, capacity, currRate) VALUES
   (1, 'Single', 1, 8000.00),
   (2, 'Double', 2, 12000.00),
   (3, 'Suite', 4, 25000.00),
-  (4, 'Deluxe', 3, 18000.00);
+  (4, 'Family', 6, 35000.00);
 
--- Rooms (reference typeID and branchID)
-INSERT INTO Room (roomID, branchID, typeID, roomNo, roomStatus) VALUES
+-- Rooms
+INSERT INTO `room` (roomID, branchID, typeID, roomNo, roomStatus) VALUES
   (1, 1, 1, 101, 'Available'),
-  (2, 1, 2, 102, 'Available'),
-  (3, 1, 3, 103, 'Available'),
-  (4, 2, 1, 201, 'Available'),
-  (5, 2, 2, 202, 'Available'),
-  (6, 2, 3, 203, 'Available'),
-  (7, 3, 1, 301, 'Available'),
-  (8, 3, 2, 302, 'Available'),
-  (9, 3, 3, 303, 'Available'),
-  (10, 3, 4, 304, 'Available');
-  
-  -- Chargeble Services (6 services)
-INSERT INTO Chargeble_Service (serviceID, serviceType, unit, ratePerUnit) VALUES
+  (2, 1, 1, 102, 'Available'),
+  (3, 1, 2, 201, 'Available'),
+  (4, 1, 2, 202, 'Available'),
+  (5, 1, 3, 301, 'Available'),
+  (6, 2, 1, 101, 'Available'),
+  (7, 2, 2, 201, 'Available'),
+  (8, 2, 3, 301, 'Available'),
+  (9, 3, 1, 101, 'Available'),
+  (10, 3, 2, 201, 'Available');
+
+-- Chargeable Services
+INSERT INTO `chargeble_service` (serviceID, serviceType, unit, ratePerUnit) VALUES
   (1, 'Spa', 'per person', 5000.00),
   (2, 'Pool', 'per person', 1500.00),
-  (3, 'Room Service', 'per request', 1000.00),
-  (4, 'Laundry', 'per kg', 1000.00),
-  (5, 'Minibar', 'per item', 500.00),
-  (6, 'Airport Shuttle', 'per request', 3000.00);
-  
-  -- Guests (5 guests)
-INSERT INTO Guest (guestID, firstName, lastName, phone, email,idNumber) VALUES
-  (1, 'Alice', 'Smith', '+9412345678', 'alice@example.com',333388222888),
-  (2, 'Bob', 'Johnson', '+9423456789', 'bob@example.com',200308111555),
-  (3, 'Carol', 'Williams', '+9434567890', 'carol@example.com',2002068113385),
-  (4, 'David', 'Brown', '+9445678901', 'david@example.com',200108391824),
-  (5, 'Eve', 'Davis', '+9456789012', 'eve@example.com',200802300123);
+  (3, 'Room Service', 'per request', 2000.00),
+  (4, 'Minibar', 'per item', 500.00),
+  (5, 'Laundry', 'per kg', 800.00),
+  (6, 'Airport Shuttle', 'per person', 3000.00);
 
--- Bookings (8 bookings)
-INSERT INTO Booking (bookingID, guestID, branchID, roomID, rate, checkInDate, checkOutDate, numGuests, bookingStatus) VALUES
-  (1, 1, 1, 1, 80.00, '2025-10-01', '2025-10-03', 1, 'CheckedOut'),
-  (2, 2, 1, 2, 120.00, '2025-10-02', '2025-10-05', 2, 'CheckedOut'),
-  (3, 3, 2, 4, 85.00, '2025-10-04', '2025-10-06', 1, 'CheckedOut'),
-  (4, 4, 2, 5, 130.00, '2025-10-05', '2025-10-07', 2, 'CheckedOut'),
-  (5, 5, 3, 7, 90.00, '2025-10-06', '2025-10-09', 1, 'CheckedOut'),
-  (6, 1, 3, 8, 140.00, '2025-10-07', '2025-10-10', 2, 'CheckedIn'),
-  (7, 2, 3, 9, 270.00, '2025-10-08', '2025-10-12', 4, 'Booked'),
-  (8, 3, 1, 3, 250.00, '2025-10-09', '2025-10-11', 3, 'Booked');
-  
--- Service usage (various bookings and services)
-INSERT INTO Service_Usage (usageID, bookingID, serviceID, rate, quantity, usedAt) VALUES
-  (1, 1, 1, 5000.00, 1, '2025-10-01 10:00:00'),
-  (2, 1, 3, 1000.00, 2, '2025-10-02 12:00:00'),
-  (3, 2, 2, 1500.00, 2, '2025-10-03 09:00:00'),
-  (4, 3, 4, 1000.00, 3, '2025-10-04 14:00:00'),
-  (5, 4, 5, 500.00, 4, '2025-10-05 16:00:00'),
-  (6, 5, 6, 3000.00, 1, '2025-10-06 11:00:00'),
-  (7, 6, 1, 5000.00, 1, '2025-10-07 10:00:00'),
-  (8, 7, 3, 1000.00, 1, '2025-10-08 13:00:00');
-  
-  INSERT INTO Invoice (
-  invoiceID, bookingID, latePolicyID, policyID, discountCode, paymentPlan,
-  roomCharges, serviceCharges, discountAmount, taxAmount, settledAmount, invoiceStatus
+-- Guests
+INSERT INTO `guest` (guestID, firstName, lastName, phone, email,idNumber) VALUES
+  (1, 'John', 'Doe', '+94771234567', 'john.doe@email.com', 'ID123456789'),
+  (2, 'Jane', 'Smith', '+94779876543', 'jane.smith@email.com', 'ID987654321'),
+  (3, 'Bob', 'Johnson', '+94775555555', 'bob.johnson@email.com', 'ID555666777'),
+  (4, 'Alice', 'Brown', '+94773333333', 'alice.brown@email.com', 'ID333444555'),
+  (5, 'Charlie', 'Wilson', '+94777777777', 'charlie.wilson@email.com', 'ID777888999'),
+  (6, 'Diana', 'Davis', '+94772222222', 'diana.davis@email.com', 'ID222333444');
+
+-- Bookings
+INSERT INTO `booking` (bookingID, guestID, branchID, roomID, rate, checkInDate, checkOutDate, numGuests, bookingStatus) VALUES
+  (1, 1, 1, 1, 8000.00, '2024-01-15 14:00:00', '2024-01-17 11:00:00', 1, 'CheckedOut'),
+  (2, 2, 1, 3, 12000.00, '2024-01-20 14:00:00', '2024-01-23 11:00:00', 2, 'CheckedOut'),
+  (3, 3, 2, 6, 8000.00, '2024-02-01 14:00:00', '2024-02-03 11:00:00', 1, 'CheckedOut'),
+  (4, 4, 1, 5, 25000.00, '2024-02-10 14:00:00', '2024-02-14 11:00:00', 4, 'CheckedOut'),
+  (5, 5, 3, 9, 8000.00, '2024-02-20 14:00:00', '2024-02-22 11:00:00', 1, 'CheckedOut'),
+  (6, 6, 2, 7, 12000.00, '2024-03-01 14:00:00', '2024-03-04 11:00:00', 2, 'CheckedOut'),
+  (7, 1, 1, 2, 8000.00, '2024-03-15 14:00:00', '2024-03-17 11:00:00', 1, 'CheckedIn'),
+  (8, 2, 2, 8, 25000.00, '2024-03-20 14:00:00', '2024-03-25 11:00:00', 4, 'Booked');
+
+-- Service Usage
+INSERT INTO `service_usage` (usageID, bookingID, serviceID, rate, quantity, usedAt) VALUES
+  (1, 1, 3, 2000.00, 1, '2024-01-16 19:30:00'),
+  (2, 2, 1, 5000.00, 2, '2024-01-21 10:00:00'),
+  (3, 2, 2, 1500.00, 2, '2024-01-21 15:00:00'),
+  (4, 3, 4, 500.00, 3, '2024-02-02 20:00:00'),
+  (5, 4, 1, 5000.00, 4, '2024-02-11 11:00:00'),
+  (6, 4, 6, 3000.00, 4, '2024-02-14 09:00:00'),
+  (7, 5, 3, 2000.00, 1, '2024-02-21 18:00:00'),
+  (8, 6, 5, 800.00, 2, '2024-03-02 08:00:00');
+
+-- Invoices
+INSERT INTO `invoice` (
+  invoiceID, bookingID, policyID, discountCode, paymentPlan, 
+  roomCharges, serviceCharges, discountAmount, settledAmount, 
+  invoiceStatus, taxAmount, latePolicyID
 ) VALUES
-  (1, 1, 1, 1, 1, 'Full', 16000.00, 9000.00, 2000.00, 2500.00, 28500.00, 'Paid'),
-  (2, 2, NULL, 2, 2, 'Installment', 3600.00, 3000.00, 1500.00, 1950.0, 2000.00, 'Partially Paid'),
-  (3, 3, 2, 1, NULL, 'Full', 17000.00, 3000.00, 0.00, 2000.00, 1000.00, 'Partially Paid'),
-  (4, 4, NULL, 1, NULL, 'Full', 26000.00, 3200.00, 0.00, 2920.00, 29200.00, 'Paid'),
-  (5, 5, 1, 2, 1, 'Installment', 27000.00, 3000.00, 2000.00, 1500.00, 10000.00, 'Partially Paid'),
-  (6, 6, NULL, 1, NULL, 'Full', 42000.00, 5000.00, 0.00, 4700.00, 51700.00, 'Paid'),
-  (7, 7, NULL, 2, NULL, 'Full', 108000.00, 2000.00, 0.00, 5500.00, 0.00, 'Pending'),
-  (8, 8, 2, 1, 2, 'Full', 50000.00, 0.00, 1500.00, 51.50, 0.00, 'Pending');
+  (1, 1, NULL, NULL, 'Full', 16000.00, 2000.00, 0.00, 18000.00, 'Paid', 0.00, NULL),
+  (2, 2, NULL, NULL, 'Full', 36000.00, 13000.00, 0.00, 49000.00, 'Paid', 0.00, NULL),
+  (3, 3, NULL, NULL, 'Full', 16000.00, 1500.00, 0.00, 17500.00, 'Paid', 0.00, NULL),
+  (4, 4, NULL, NULL, 'Full', 100000.00, 32000.00, 0.00, 132000.00, 'Paid', 0.00, NULL),
+  (5, 5, NULL, NULL, 'Full', 16000.00, 2000.00, 0.00, 18000.00, 'Paid', 0.00, NULL),
+  (6, 6, NULL, NULL, 'Full', 36000.00, 1600.00, 0.00, 37600.00, 'Paid', 0.00, NULL),
+  (7, 7, NULL, NULL, 'Full', 16000.00, 0.00, 0.00, 0.00, 'Pending', 0.00, NULL),
+  (8, 8, NULL, NULL, 'Full', 125000.00, 0.00, 0.00, 0.00, 'Pending', 0.00, NULL);
 
-  -- Payments for invoices (at least 3 partial payments)
-INSERT INTO Payment (transactionID, invoiceID, transactionDate, paymentMethod, amount) VALUES
-  (1, 1, '2025-10-03', 'Card', 28500.00),           -- Full payment for invoice 1
-  (2, 2, '2025-10-05', 'Cash', 1000.00),           -- Partial payment for invoice 2
-  (3, 2, '2025-10-06', 'Online', 1000.00),         -- Partial payment for invoice 2
-  (4, 3, '2025-10-06', 'Card', 1000.00),           -- Partial payment for invoice 3
-  (5, 4, '2025-10-07', 'Card', 29200.00),           -- Full payment for invoice 4
-  (6, 5, '2025-10-09', 'Cash', 10000.00),           -- Partial payment for invoice 5
-  (7, 6, '2025-10-10', 'Online', 51700.00);         -- Full payment for invoice 6
+-- Payments
+INSERT INTO `payment` (transactionID, invoiceID, transactionDate, paymentMethod, amount) VALUES
+  (1, 1, '2024-01-17', 'Card', 18000.00),
+  (2, 2, '2024-01-23', 'Cash', 49000.00),
+  (3, 3, '2024-02-03', 'Online', 17500.00),
+  (4, 4, '2024-02-14', 'Card', 132000.00),
+  (5, 5, '2024-02-22', 'Cash', 18000.00),
+  (6, 6, '2024-03-04', 'Online', 37600.00),
+  (7, 4, '2024-02-10', 'Card', 50000.00);
+
+-- User Accounts (for testing)
+INSERT INTO `user_account` (userID, branchID, username, userRole, salt, password_hash) VALUES
+  (1, 1, 'admin', 'Admin', NULL, NULL),
+  (2, 1, 'manager_kandy', 'Manager', NULL, NULL),
+  (3, 2, 'manager_galle', 'Manager', NULL, NULL),
+  (4, 1, 'reception_kandy', 'Reception', NULL, NULL),
+  (5, 2, 'reception_galle', 'Reception', NULL, NULL);

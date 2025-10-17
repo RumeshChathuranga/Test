@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { getRole, getToken } from "../../lib/storage";
 import { hasAnyRole } from "../../lib/roles";

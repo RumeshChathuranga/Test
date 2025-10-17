@@ -45,7 +45,7 @@ fi
 
 # Import schema
 echo "📋 Importing database schema..."
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < schema_fixed.sql
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < schema.sql
 
 if [ $? -eq 0 ]; then
     echo "✅ Schema imported successfully"
@@ -69,7 +69,7 @@ echo "📝 Importing procedures..."
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < procedures.sql
 
 if [ $? -eq 0 ]; then
-    echo "✅ Procedures imported successfully"
+    echo "✅ Procedures imported successfully (using corrected table names)"
 else
     echo "⚠️  Warning: Some procedures may have failed to import"
 fi
@@ -86,7 +86,7 @@ fi
 
 # Import seed data
 echo "🌱 Importing seed data..."
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < seed_data_fixed.sql
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < seed_data.sql
 
 if [ $? -eq 0 ]; then
     echo "✅ Seed data imported successfully"
